@@ -21,13 +21,4 @@ class BookingEventListener(private val auditService: AuditService) {
 //        val event: BookingEvent = parseMessage(message)
         auditService.logBookingCreation(message).also { logger.info("Send event $it to database") }
     }
-
-    private fun parseMessage(message: String): BookingEvent {
-        try {
-            return ObjectMapper().readValue(message, BookingEvent::class.java)
-        } catch (e: JsonProcessingException) {
-            logger.warn(e.message)
-            throw RuntimeException(e)
-        }
-    }
 }
