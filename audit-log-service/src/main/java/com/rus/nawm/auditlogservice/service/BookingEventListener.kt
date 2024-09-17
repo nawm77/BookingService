@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class BookingEventListener(private val auditService: AuditService) {
-    private val logger = LoggerFactory.getLogger(BookingEventListener::class.java)
-
     @Value("\${audit_booking.queue.name}")
     lateinit var auditBookingQueueName: String
+
+    private val logger = LoggerFactory.getLogger(BookingEventListener::class.java)
 
     @RabbitListener(queues = ["\${audit_booking.queue.name}"])
     fun receive(message: BookingEvent) {

@@ -2,7 +2,6 @@ services:
   rabbitmq:
     image: rabbitmq:latest
     container_name: rabbitmq
-    hostname: rabbitmq
     restart: unless-stopped
     environment:
       TZ: Europe/Moscow
@@ -27,3 +26,12 @@ services:
       - CLICKHOUSE_DB=audits
       - CLICKHOUSE_USER=clickhouse
       - CLICKHOUSE_PASSWORD=1234
+
+  audit-log-service:
+    image: nawm77/audit-log-service
+    build:
+      context: ../../audit-log-service/Dockerfile
+    container_name: audit-log-service
+    ports:
+      - "8081:8081"
+    restart: unless-stopped

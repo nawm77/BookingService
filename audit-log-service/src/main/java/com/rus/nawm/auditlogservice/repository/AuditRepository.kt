@@ -3,10 +3,12 @@ package com.rus.nawm.auditlogservice.repository
 import com.rus.nawm.auditlogservice.event.BookingEvent
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 
 @Repository
 open class AuditRepository(private val jdbcTemplate: JdbcTemplate) {
+    @Transactional
     open fun saveBookingCreationEvent(
         bookingEvent: BookingEvent
     ) {
@@ -25,6 +27,7 @@ open class AuditRepository(private val jdbcTemplate: JdbcTemplate) {
             bookingEvent.refundAmount)
     }
 
+    @Transactional
     open fun saveBookingCancellationEvent(
         bookingEvent: BookingEvent
     ) {
@@ -43,6 +46,7 @@ open class AuditRepository(private val jdbcTemplate: JdbcTemplate) {
             bookingEvent.refundAmount)
     }
 
+    @Transactional
     open fun saveBookingStatusUpdate(bookingEvent: BookingEvent) {
         val sql = "INSERT INTO audit_log (event_type, booking_id, user_id, property_id, price, currency, previous_status, new_status, reason, refund_amount, event_timestamp) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())"
