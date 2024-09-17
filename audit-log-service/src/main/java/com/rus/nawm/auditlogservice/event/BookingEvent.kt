@@ -7,10 +7,10 @@ data class BookingEvent(
     val bookingId: String? = null,
     val userId: String? = null,
     val propertyId: String? = null,
-    val price: Double? = null,
+    val price: Double = 0.0,
     val currency: String? = null,
     val previousStatus: String? = null,
     val newStatus: String? = null,
     val reason: String? = null,
-    val refundAmount: Double? = null
+    val refundAmount: Double = 0.0
 ) : Serializable

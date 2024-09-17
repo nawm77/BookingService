@@ -8,21 +8,15 @@ import org.springframework.stereotype.Service
 class AuditService(private val auditRepository: AuditRepository) {
 
     fun logBookingCreation(bookingEvent: BookingEvent): BookingEvent {
-        bookingEvent.price?.let {
-            auditRepository.saveBookingCreationEvent(bookingEvent.bookingId, bookingEvent.userId, bookingEvent.propertyId,
-                it, bookingEvent.currency)
-        }
+        auditRepository.saveBookingCreationEvent(bookingEvent)
         return bookingEvent
     }
 
     fun logBookingCancellation(bookingEvent: BookingEvent) {
-        bookingEvent.refundAmount?.let {
-            auditRepository.saveBookingCancellationEvent(bookingEvent.bookingId, bookingEvent.userId, bookingEvent.reason,
-                it, bookingEvent.currency)
-        }
+        auditRepository.saveBookingCancellationEvent(bookingEvent)
     }
 
     fun logBookingStatusUpdate(bookingEvent: BookingEvent) {
-        auditRepository.saveBookingStatusUpdate(bookingEvent.bookingId, bookingEvent.previousStatus, bookingEvent.newStatus)
+        auditRepository.saveBookingStatusUpdate(bookingEvent)
     }
 }
