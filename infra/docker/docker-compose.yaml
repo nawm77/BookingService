@@ -1,37 +1,77 @@
+version: '3.8'
+
 services:
   rabbitmq:
     image: rabbitmq:latest
-    container_name: rabbitmq
+    container_name: ${RABBITMQ_CONTAINER_NAME}
     restart: unless-stopped
     environment:
       TZ: Europe/Moscow
-      RABBITMQ_DEFAULT_USER: rab
-      RABBITMQ_DEFAULT_PASS: 1234
-      RABBITMQ_DEFAULT_VHOST: vhost
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
     volumes:
-      - ./rabbitmq:/var/lib/rabbitmq￼
+      - ./rabbitmq:/var/lib/rabbitmq
+      - ./rabbitmq/init.sh:/var/init.sh
     ports:
       - "5672:5672"
       - "15672:15672"
 
   clickhouse:
     image: yandex/clickhouse-server:latest
-    container_name: clickhouse
+    container_name: ${CLICKHOUSE_CONTAINER_NAME}
     ports:
       - "8123:8123"
       - "9000:9000"
     volumes:
       - ./data/clickhouse:/var/lib/clickhouse
     environment:
-      - CLICKHOUSE_DB=audits
-      - CLICKHOUSE_USER=clickhouse
-      - CLICKHOUSE_PASSWORD=1234
+      - CLICKHOUSE_DB=${CLICKHOUSE_DB}
+      - CLICKHOUSE_USER=${CLICKHOUSE_USER}
+      - CLICKHOUSE_PASSWORD=${CLICKHOUSE_PASSWORD}
+
+  postgres:
+    image: postgres:latest
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   audit-log-service:
-    image: nawm77/audit-log-service
+    image: audit-log-service
     build:
-      context: ../../audit-log-service/Dockerfile
-    container_name: audit-log-service
+      context: ../../audit-log-service
+      dockerfile: Dockerfile
+    container_name: ${AUDIT_LOG_SERVICE_CONTAINER_NAME}
+    depends_on:
+      - ${SPRING_CONFIG_SERVER_CONTAINER_NAME}
+      - ${CLICKHOUSE_CONTAINER_NAME}
+      - ${RABBITMQ_CONTAINER_NAME}
     ports:
       - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_RABBITMQ_VIRTUAL-HOST=${RABBITMQ_VHOST}
+      - SPRING_CLOUD_CONFIG_URI=http://${SPRING_CONFIG_SERVER_CONTAINER_NAME}:8888
+      - SPRING_CONFIG_IMPORT=${SPRING_CONFIG_IMPORT}
     restart: unless-stopped
+
+  config-server:
+    image: config-server
+    container_name: ${SPRING_CONFIG_SERVER_CONTAINER_NAME}
+    build:
+      context: ../../config-server
+      dockerfile: Dockerfile
+      args:
+        GIT_USERNAME: ${GIT_USERNAME}
+        GIT_PASSWORD: ${GIT_PASSWORD}
+    environment:
+      - GIT_USERNAME=${GIT_USERNAME}
+      - GIT_PASSWORD=${GIT_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=build
+      - LOGGING_LEVEL_ROOT=${LOGGING_LEVEL_ROOT}
+    ports:
+      - "8888:8888"
