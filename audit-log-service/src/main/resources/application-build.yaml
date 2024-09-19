@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: audit-log-service
+  datasource:
+    url: jdbc:clickhouse://localhost:8123/audits?compress=0
+    username: sa
+    password: password
+    driver-class-name: com.clickhouse.jdbc.ClickHouseDriver
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: sa
+    password: password
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+audit_booking:
+  queue:
+    name: booking-events
