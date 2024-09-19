@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 /infra/docker/data
 /infra/docker/rabbitmq
+/infra/docker/.env
 ### STS ###
 .apt_generated
 .classpath
