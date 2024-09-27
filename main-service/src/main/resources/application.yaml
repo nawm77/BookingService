@@ -3,9 +3,18 @@ server:
 spring:
   application:
     name: main-service
-  config:
-    import: optional:configserver:http://localhost:8888
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/booking
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
   cloud:
     config:
-      uri: http://localhost:8888
-      fail-fast: true
+      fail-fast: false
+  config:
+    import: "optional:configserver:http://localhost:8888"

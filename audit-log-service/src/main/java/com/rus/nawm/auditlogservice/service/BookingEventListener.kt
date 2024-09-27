@@ -1,6 +1,6 @@
 package com.rus.nawm.auditlogservice.service
 
-import com.rus.nawm.auditlogservice.event.BookingEvent
+import com.rus.nawm.auditlogservice.domain.BookingEvent
 import org.slf4j.LoggerFactory
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.beans.factory.annotation.Value

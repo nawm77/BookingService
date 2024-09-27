@@ -1,4 +1,4 @@
-package com.rus.nawm.auditlogservice.event
+package com.rus.nawm.auditlogservice.domain
 
 import java.io.Serializable
 

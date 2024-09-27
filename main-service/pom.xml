@@ -80,6 +80,15 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.rus.nawm.audit</groupId>
+            <artifactId>audit-log-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-hateoas</artifactId>
+        </dependency>
     </dependencies>
 
 	<build>
@@ -147,6 +156,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>main-service</finalName>
 	</build>
 
 </project>

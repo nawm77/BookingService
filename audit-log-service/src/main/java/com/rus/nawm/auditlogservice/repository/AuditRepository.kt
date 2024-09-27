@@ -1,6 +1,6 @@
 package com.rus.nawm.auditlogservice.repository
 
-import com.rus.nawm.auditlogservice.event.BookingEvent
+import com.rus.nawm.auditlogservice.domain.BookingEvent
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional

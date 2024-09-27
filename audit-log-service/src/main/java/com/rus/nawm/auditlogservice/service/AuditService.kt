@@ -1,6 +1,6 @@
 package com.rus.nawm.auditlogservice.service
 
-import com.rus.nawm.auditlogservice.event.BookingEvent
+import com.rus.nawm.auditlogservice.domain.BookingEvent
 import com.rus.nawm.auditlogservice.repository.AuditRepository
 import org.springframework.stereotype.Service
 
