@@ -1,12 +1,10 @@
-package com.rus.nawm.mainservice.controller;
+package com.rus.nawm.mainservice.controller.rest;
 
 import com.rus.nawm.mainservice.domain.Property;
 import com.rus.nawm.mainservice.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +65,7 @@ public class PropertyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<Property>> updateProperty(@PathVariable String id, @RequestBody Property property) {
-        Property updatedProperty = propertyService.updateProperty(id, property);
+        Property updatedProperty = propertyService.updateProperty(property);
         EntityModel<Property> entityModel = EntityModel.of(updatedProperty);
         entityModel.add(linkTo(methodOn(PropertyController.class).getPropertyById(id)).withSelfRel());
         entityModel.add(linkTo(methodOn(PropertyController.class).getAllProperties()).withRel("properties"));

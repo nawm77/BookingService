@@ -1,4 +1,4 @@
-package com.rus.nawm.mainservice.controller;
+package com.rus.nawm.mainservice.controller.rest;
 
 import com.rus.nawm.mainservice.domain.Booking;
 import com.rus.nawm.mainservice.service.impl.BookingServiceImpl;
@@ -45,7 +45,7 @@ public class BookingController {
     public ResponseEntity<EntityModel<Booking>> createBooking(@RequestBody Booking booking) {
         Booking createdBooking = bookingServiceImpl.createBooking(booking);
         EntityModel<Booking> bookingModel = toModel(createdBooking);
-
+//todo сделать логику, что при оплате статус бронирования меняется на другой (CONFIRMED)
         return ResponseEntity
                 .created(bookingModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(bookingModel);

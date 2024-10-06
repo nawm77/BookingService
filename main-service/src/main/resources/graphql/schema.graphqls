@@ -1,0 +1,128 @@
+type Query {
+    getBookings: [Booking]
+    getBooking(id: String!): Booking
+    getPayments: [Payment]
+    getPayment(id: String!): Payment
+    getProperties: [Property]
+    getProperty(id: String!): Property
+    getUsers: [User]
+    getUser(id: String!): User
+}
+
+type Mutation {
+    createBooking(input: CreateBookingInput!): Booking
+    updateBooking(input: UpdateBookingInput!): Booking
+
+    createPayment(input: CreatePaymentInput!): Payment
+    updatePayment(input: UpdatePaymentInput!): Payment
+
+    createProperty(input: CreatePropertyInput!): Property
+    updateProperty(input: UpdatePropertyInput!): Property
+
+    createUser(input: CreateUserInput!): User
+    updateUser(input: UpdateUserInput!): User
+}
+
+type Booking {
+    id: String
+    user: User
+    property: Property
+    bookingDate: String
+    startDate: String
+    endDate: String
+    totalPrice: Float
+    currency: String
+    status: String
+}
+
+input CreateBookingInput {
+    userId: String!
+    propertyId: String!
+    bookingDate: String!
+    startDate: String!
+    endDate: String!
+    totalPrice: Float!
+    currency: String!
+    status: String!
+}
+
+input UpdateBookingInput {
+    id: String!
+    userId: String
+    propertyId: String
+    bookingDate: String
+    startDate: String
+    endDate: String
+    totalPrice: Float
+    currency: String
+    status: String
+}
+
+type Payment {
+    id: String
+    booking: Booking
+    amount: Float
+    currency: String
+    paymentDate: String
+    status: String
+}
+
+input CreatePaymentInput {
+    bookingId: String!
+    amount: Float!
+    currency: String!
+    paymentDate: String!
+    status: String!
+}
+
+input UpdatePaymentInput {
+    id: String!
+    bookingId: String
+    amount: Float
+    currency: String
+    paymentDate: String
+    status: String
+}
+
+type Property {
+    id: String
+    address: String
+    owner: User
+    pricePerNight: Float
+    currency: String
+}
+
+input CreatePropertyInput {
+    address: String!
+    ownerId: String!
+    pricePerNight: Float!
+    currency: String!
+}
+
+input UpdatePropertyInput {
+    id: String!
+    address: String
+    ownerId: String
+    pricePerNight: Float
+    currency: String
+}
+
+type User {
+    id: String
+    username: String
+    email: String
+    phoneNumber: String
+}
+
+input CreateUserInput {
+    username: String!
+    email: String!
+    phoneNumber: String!
+}
+
+input UpdateUserInput {
+    id: String!
+    username: String
+    email: String
+    phoneNumber: String
+}

@@ -9,6 +9,6 @@ public interface PropertyService {
     Property createProperty(Property property);
     Optional<Property> getPropertyById(String id);
     List<Property> getAllProperties();
-    Property updateProperty(String id, Property property);
+    Property updateProperty(Property property);
     void deleteProperty(String id);
 }

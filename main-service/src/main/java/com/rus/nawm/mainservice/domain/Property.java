@@ -3,8 +3,6 @@ package com.rus.nawm.mainservice.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
-
 @Data
 @Entity
 public class Property {
@@ -16,6 +14,4 @@ public class Property {
     private User owner;
     private double pricePerNight;
     private String currency;
-    private LocalDate availableFrom;
-    private LocalDate availableTo;
 }

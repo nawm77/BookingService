@@ -35,16 +35,14 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Property updateProperty(String id, Property property) {
-        return propertyRepository.findById(id).map(existingProperty -> {
+    public Property updateProperty(Property property) {
+        return propertyRepository.findById(property.getId()).map(existingProperty -> {
             existingProperty.setAddress(property.getAddress());
             existingProperty.setOwner(property.getOwner());
             existingProperty.setPricePerNight(property.getPricePerNight());
             existingProperty.setCurrency(property.getCurrency());
-            existingProperty.setAvailableFrom(property.getAvailableFrom());
-            existingProperty.setAvailableTo(property.getAvailableTo());
             return propertyRepository.save(existingProperty);
-        }).orElseThrow(() -> new RuntimeException("Property not found with id: " + id));
+        }).orElseThrow(() -> new RuntimeException("Property not found with id: " + property.getId()));
     }
 
     @Override

@@ -1,11 +1,10 @@
-package com.rus.nawm.mainservice.controller;
+package com.rus.nawm.mainservice.controller.rest;
 
 import com.rus.nawm.mainservice.domain.Payment;
 import com.rus.nawm.mainservice.service.PaymentService;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

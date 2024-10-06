@@ -1,11 +1,10 @@
-package com.rus.nawm.mainservice.controller;
+package com.rus.nawm.mainservice.controller.rest;
 
 import com.rus.nawm.mainservice.domain.User;
 import com.rus.nawm.mainservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,7 +65,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EntityModel<User>> updateUser(@PathVariable String id, @RequestBody User user) {
-        User updatedUser = userService.updateUser(id, user);
+        User updatedUser = userService.updateUser(user);
         EntityModel<User> entityModel = EntityModel.of(updatedUser);
         entityModel.add(linkTo(methodOn(UserController.class).getUserById(id)).withSelfRel());
         entityModel.add(linkTo(methodOn(UserController.class).getAllUsers()).withRel("users"));
