@@ -16,7 +16,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/v1/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -77,7 +77,6 @@ public class PaymentController {
 
         Link selfLink = linkTo(methodOn(PaymentController.class).getPaymentById(payment.getId())).withSelfRel();
         Link allPaymentsLink = linkTo(methodOn(PaymentController.class).getAllPayments()).withRel("payments");
-
         paymentModel.add(selfLink);
         paymentModel.add(allPaymentsLink);
 

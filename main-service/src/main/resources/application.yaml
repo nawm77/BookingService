@@ -21,3 +21,17 @@ spring:
   graphql:
     graphiql:
       enabled: true
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rab
+    password: 1234
+    directExchangeName: main.direct.exchange
+audit_booking:
+  queue:
+    name: booking-events
+    routingKey: audit
+document_verification:
+  queue:
+    name: documentVerificationQueue
+    routingKey: document.verify

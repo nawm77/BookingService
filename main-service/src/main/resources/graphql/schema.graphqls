@@ -7,6 +7,7 @@ type Query {
     getProperty(id: String!): Property
     getUsers: [User]
     getUser(id: String!): User
+    getDocument(id: String!): Document
 }
 
 type Mutation {
@@ -21,6 +22,9 @@ type Mutation {
 
     createUser(input: CreateUserInput!): User
     updateUser(input: UpdateUserInput!): User
+
+    createDocument(input: CreateDocumentInput!): Document
+    updateDocument(input: UpdateDocumentInput!): Document
 }
 
 type Booking {
@@ -125,4 +129,27 @@ input UpdateUserInput {
     username: String
     email: String
     phoneNumber: String
+}
+
+type Document {
+    id: String
+    number: String
+    user: User
+    expirationMonth: Int
+    expirationYear: Int
+}
+
+input CreateDocumentInput {
+    number: String!
+    userId: String!
+    expirationMonth: Int!
+    expirationYear: Int!
+}
+
+input UpdateDocumentInput {
+    id: String!
+    number: String!
+    userId: String!
+    expirationMonth: Int!
+    expirationYear: Int!
 }

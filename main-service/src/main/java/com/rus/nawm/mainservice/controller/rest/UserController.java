@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     private final UserService userService;
@@ -27,6 +27,38 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<EntityModel<User>> createUser(@RequestBody User user) {
+        //todo сделать аспектно получение айпи адреса отправителя и сделать метод сохранения в очередь аудита нового события
+        /*
+        * @Aspect
+@Component
+public class AuditAspect {
+
+    private final HttpServletRequest request;
+
+    public AuditAspect(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    // Определение точки среза для всех методов контроллера
+    @Pointcut("execution(* com.example.controller.UserController.*(..))")
+    public void userControllerMethods() {}
+
+    @AfterReturning(pointcut = "userControllerMethods()", returning = "result")
+    public void logAudit(Object result) {
+        String clientIp = getClientIp(request);
+        // Логика сохранения события в аудите, включая IP-адрес и другие данные
+        saveAuditEvent(clientIp, result);
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        return (xForwardedFor != null && !xForwardedFor.isEmpty()) ? xForwardedFor.split(",")[0] : request.getRemoteAddr();
+    }
+
+    private void saveAuditEvent(String clientIp, Object result) {
+        // Сохранение события в ClickHouse или другой базе данных
+    }
+}*/
         User createdUser = userService.createUser(user);
         EntityModel<User> entityModel = EntityModel.of(createdUser);
         entityModel.add(linkTo(methodOn(UserController.class).getUserById(createdUser.getId())).withSelfRel());
@@ -43,6 +75,7 @@ public class UserController {
             EntityModel<User> entityModel = EntityModel.of(user.get());
             entityModel.add(linkTo(methodOn(UserController.class).getUserById(id)).withSelfRel());
             entityModel.add(linkTo(methodOn(UserController.class).getAllUsers()).withRel("users"));
+            entityModel.add(linkTo(methodOn(DocumentController.class).getDocumentByUserId(id)).withRel("document"));
             return ResponseEntity.ok(entityModel);
         } else {
             return ResponseEntity.notFound().build();
@@ -77,4 +110,6 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+    //todo сделать метод для проверки документов который кидает в раббит заявку и затем нотифаер уведомляет, что проверка закончилась
 }
