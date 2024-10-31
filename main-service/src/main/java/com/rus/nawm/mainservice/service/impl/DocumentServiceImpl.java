@@ -6,8 +6,7 @@ import com.rus.nawm.mainservice.repository.DocumentRepository;
 import com.rus.nawm.mainservice.service.DocumentService;
 import com.rus.nawm.mainservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,8 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class DocumentServiceImpl implements DocumentService {
-  private static final Logger log = LoggerFactory.getLogger(DocumentServiceImpl.class);
   @Value("${spring.rabbitmq.directExchangeName}")
   private String directExchangeName;
 
@@ -47,8 +46,7 @@ public class DocumentServiceImpl implements DocumentService {
     Optional<User> user = userService.getUserById(document.getOwner().getId());
     if(user.isPresent()) {
       document.setOwner(user.get());
-      rabbitTemplate.convertAndSend(directExchangeName, documentVerificationRoutingKey, document);
-      log.info("Sent document {} to verification service", document);
+      sendValidateDocumentMessage(document);
       return document;
     } else {
       throw new NoSuchElementException("No such user with id " + document.getOwner().getId());
@@ -62,5 +60,11 @@ public class DocumentServiceImpl implements DocumentService {
     } else {
       throw new NoSuchElementException("No such document with id " + document.getId());
     }
+  }
+
+  private void sendValidateDocumentMessage(Document document) {
+    log.info("Send validate message for document {}", document.getId());
+    rabbitTemplate.convertAndSend(directExchangeName, documentVerificationRoutingKey, document);
+    log.info("");
   }
 }

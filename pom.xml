@@ -12,6 +12,8 @@
         <module>audit-log-service</module>
         <module>notify-service</module>
         <module>grpc-validation-service</module>
+        <module>grpc-client</module>
+        <module>common-entities</module>
     </modules>
 
     <properties>

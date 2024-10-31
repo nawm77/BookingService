@@ -14,5 +14,6 @@ public class Document {
   private User owner;
   private Integer expirationMonth;
   private Integer expirationYear;
+  private Boolean isValid;
   //todo можно уведомлять что срок действия документа закончился. для этого сделать отдельную очередь documentExpirationNotifier и туда класть сообщения а нотифаер будет вычитывать и отправлять далее
 }

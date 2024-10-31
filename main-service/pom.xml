@@ -8,6 +8,7 @@
         <version>3.3.3</version>
         <relativePath/>
 	</parent>
+
 	<groupId>com.rus.nawm.main</groupId>
 	<artifactId>main-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
