@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package com.rus.nawm.grpcclient;
+
+// Message representing a User
+message User {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string phone_number = 4; // Use snake_case for field names
+}
+
+// Message representing a Document
+message Document {
+  string id = 1;
+  string number = 2;
+  User owner = 3; // Nested User message
+  int32 expiration_month = 4; // Use snake_case for field names
+  int32 expiration_year = 5; // Use snake_case for field names
+  bool is_valid = 6;
+}
+
+// Request message for the ValidateDocument RPC
+message ValidateDocumentRequest {
+  Document document = 1; // Document to be validated
+}
+
+// Response message for the ValidateDocument RPC
+message ValidateDocumentResponse {
+  Document document = 1; // Document after validation
+  bool is_valid = 2; // Validation status
+}
+
+// gRPC service definition
+service DocumentValidator {
+  rpc ValidateDocument(ValidateDocumentRequest) returns (ValidateDocumentResponse);
+}

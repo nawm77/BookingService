@@ -1,0 +1,26 @@
+server:
+  port: 8082
+spring:
+  cloud:
+    config:
+      enabled: false
+  application:
+    name: grpc-client
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rab
+    password: 1234
+    directExchangeName: main.direct.exchange
+document_verification_results:
+  queue:
+    name: documentVerificationResults
+    routingKey: document.verify.results
+document_verification:
+  queue:
+    name: documentVerificationQueue
+grpc:
+  client:
+    documentValidator:
+      address: localhost:9090
+      negotiation-type: plaintext
