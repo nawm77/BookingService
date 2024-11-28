@@ -39,6 +39,8 @@ public class RabbitMQService {
             .build();
 
     document.setIsValid(stub.validateDocument(request).getIsValid());
+    log.info("Send document {} with result {} to rabbit", document.getId(), document.getIsValid());
     rabbitTemplate.convertAndSend(directExchangeName, documentVerificationResultsQueueRoutingKey, document);
+    //todo сделать обработку результата в мейне чтобы он сохранял статус валидации + повесить слушателя на нотифаера чтобы он тоже был в курсе результатов проверки документов
   }
 }

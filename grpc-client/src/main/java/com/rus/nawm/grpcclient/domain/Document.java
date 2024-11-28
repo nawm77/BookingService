@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Document {
-  //  private String id;
+  private String id;
   private String number;
   private User owner;
   private Integer expirationMonth;
